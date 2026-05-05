@@ -23,7 +23,7 @@ export class Products {
   selectedProduct: any = null;
 
   categories = [
-    'Todos', 'Antibioticos', 'Antialergicos', 'Anti-inflamatorios', 
+    'Todos', 'Antibioticos', 'Antialergicos', 'Antiinflamatorios', 
     'Anestesicos', 'Autonomicos', 'Lubricantes', 'Antiglaucomatosos', 'Favoritos'
   ];
 

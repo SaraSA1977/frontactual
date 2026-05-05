@@ -1,24 +1,55 @@
-// Contenedor principal
+// src/app/features/products/products.scss
+
+// ── Contenedor principal ──────────────────────────────────────
 .container {
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-// Buscador
+// ── Buscador ─────────────────────────────────────────────────
 .search-container {
   margin-bottom: 20px;
-  .search-input {
-    width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 16px;
+}
+
+// FIX: el wrapper es position:relative para que el ícono
+// se posicione absolutamente dentro de él
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+// Input ocupa todo el ancho, padding-right deja espacio al ícono
+.search-input {
+  width: 100%;
+  padding: 12px 44px 12px 16px; // ← derecha: 44px para el ícono
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
   }
 }
 
-// Estilo de botones de Filtros
-.filters-main, .filters-sub {
+// Ícono posicionado dentro del input, a la derecha
+.search-icon {
+  position: absolute;
+  right: 14px;
+  font-size: 18px;
+  pointer-events: none; // no interfiere con el click en el input
+  line-height: 1;
+  color: #999;
+}
+
+// ── Filtros principales ───────────────────────────────────────
+.filters-main,
+.filters-sub {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -31,7 +62,7 @@
     background: white;
     color: #007bff;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.2s;
 
     &.active {
       background: #007bff;
@@ -44,7 +75,7 @@
   }
 }
 
-// Filtros de subcategoría
+// Subcategorías
 .filters-sub button {
   border-color: #6c757d;
   color: #6c757d;
@@ -56,7 +87,7 @@
   }
 }
 
-// Grid de tarjetas
+// ── Grid de tarjetas ──────────────────────────────────────────
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -64,11 +95,11 @@
 }
 
 .card {
-  position: relative; // Necesario para posicionar la estrella
+  position: relative;
   border: 1px solid #eee;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background: white;
   display: flex;
   flex-direction: column;
@@ -78,14 +109,12 @@
     transform: translateY(-5px);
   }
 
-  // --- BOTÓN DE ESTRELLA (FAVORITOS) ---
+  // Estrella de favoritos
   .btn-fav {
     position: absolute;
     top: 12px;
     left: 12px;
     z-index: 5;
-    
-    // Limpieza total del cuadro
     background: transparent !important;
     border: none !important;
     outline: none !important;
@@ -96,22 +125,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    // Tamaño y color base
-    font-size: 1.6rem; // Más grande como pediste
-    color: #ccc; // Gris cuando no es favorita
+    font-size: 1.6rem;
+    color: #ccc;
     transition: all 0.3s ease;
     -webkit-tap-highlight-color: transparent;
 
-    // Estado Activo (Favorito)
     &.active {
-      color: #ffc107; // Amarillo brillante
-      transform: scale(1.15); // Un toque más de tamaño al activarse
+      color: #ffc107;
+      transform: scale(1.15);
       filter: drop-shadow(0 0 3px rgba(255, 193, 7, 0.3));
     }
 
     &:active {
-      transform: scale(0.9); // Efecto de pulsación al hacer clic
+      transform: scale(0.9);
     }
   }
 
@@ -126,15 +152,27 @@
   .card-body {
     padding: 15px;
     text-align: center;
-    
-    .product-name { margin: 10px 0; color: #333; font-weight: bold; }
-    .product-info { font-size: 0.9em; color: #666; margin: 5px 0; }
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    .product-name {
+      margin: 10px 0;
+      color: #333;
+      font-weight: bold;
+    }
+
+    .product-info {
+      font-size: 0.9em;
+      color: #666;
+      margin: 5px 0;
+    }
   }
 
   .btn-more {
     margin: 10px 15px 15px;
     padding: 10px;
-    background: #28a745;
+    background: #283fa7;
     color: white;
     border: none;
     border-radius: 8px;
@@ -143,17 +181,19 @@
     transition: background 0.2s;
 
     &:hover {
-      background: #218838;
+      background: #212488;
     }
   }
 }
 
-// MODAL (Ventana emergente)
+// ── Modal ─────────────────────────────────────────────────────
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -172,15 +212,43 @@
 
   .btn-close {
     position: absolute;
-    top: 10px; right: 15px;
+    top: 10px;
+    right: 15px;
     font-size: 24px;
-    border: none; background: none;
+    border: none;
+    background: none;
     cursor: pointer;
     color: #999;
-    &:hover { color: #333; }
+
+    &:hover {
+      color: #333;
+    }
   }
 
-  .info-row { margin-bottom: 15px; }
+  .modal-header {
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0 0 4px;
+      color: #1e2a38;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #666;
+      font-style: italic;
+    }
+  }
+
+  .info-row {
+    margin-bottom: 15px;
+
+    p {
+      margin: 4px 0 0;
+      color: #555;
+    }
+  }
+
   .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -189,5 +257,10 @@
     background: #f8f9fa;
     padding: 10px;
     border-radius: 8px;
+
+    .info-item {
+      font-size: 14px;
+      color: #444;
+    }
   }
 }

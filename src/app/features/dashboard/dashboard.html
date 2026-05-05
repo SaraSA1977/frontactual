@@ -1,5 +1,7 @@
+<!-- src/app/features/dashboard/dashboard.html -->
+
 <div class="page">
- 
+
   <!-- ── HEADER ────────────────────────────────────────────── -->
   <div class="head">
     <div class="title">
@@ -10,10 +12,10 @@
       <span class="dot"></span> Vademécum actualizado
     </div>
   </div>
- 
+
   <!-- ── KPIs ──────────────────────────────────────────────── -->
   <div class="kpi-grid">
- 
+
     <div class="kpi-card kpi-green">
       <span class="kpi-icon">💊</span>
       <div>
@@ -21,7 +23,7 @@
         <p class="kpi-value">{{ totalProductos }}</p>
       </div>
     </div>
- 
+
     <div class="kpi-card kpi-blue">
       <span class="kpi-icon">🏆</span>
       <div>
@@ -29,7 +31,7 @@
         <p class="kpi-value">{{ topCategoria }}</p>
       </div>
     </div>
- 
+
     <div class="kpi-card kpi-teal">
       <span class="kpi-icon">💧</span>
       <div>
@@ -37,7 +39,7 @@
         <p class="kpi-value">{{ topForma }}</p>
       </div>
     </div>
- 
+
     <div class="kpi-card kpi-purple">
       <span class="kpi-icon">🔬</span>
       <div>
@@ -45,53 +47,96 @@
         <p class="kpi-value">{{ totalLaboratorios }}</p>
       </div>
     </div>
- 
+
   </div>
- 
+
   <!-- ── FILA 2: Barras + Doughnut ─────────────────────────── -->
   <div class="grid2">
- 
+
     <div class="card chart-card">
       <h3 class="card-title">Productos por categoría</h3>
       <p class="card-subtitle">Número de nombres comerciales por área terapéutica</p>
       <div class="chart-container">
-        <canvas
-          baseChart
-          [data]="barChartData"
-          [type]="barChartType"
-          [options]="barChartOptions">
-        </canvas>
+        <canvas baseChart [data]="barChartData" [type]="barChartType" [options]="barChartOptions"></canvas>
       </div>
     </div>
- 
+
     <div class="card chart-card">
       <h3 class="card-title">Top laboratorios</h3>
       <p class="card-subtitle">Distribución de productos por fabricante</p>
       <div class="chart-container">
-        <canvas
-          baseChart
-          [data]="doughnutChartData"
-          [type]="doughnutChartType"
-          [options]="doughnutChartOptions">
-        </canvas>
+        <canvas baseChart [data]="doughnutChartData" [type]="doughnutChartType" [options]="doughnutChartOptions"></canvas>
       </div>
     </div>
- 
+
   </div>
- 
-  <!-- ── FILA 3: Línea formas ──────────────────────────────── -->
-  <div class="card chart-card full">
-    <h3 class="card-title">Distribución por forma farmacéutica</h3>
-    <p class="card-subtitle">Cantidad de productos según su presentación</p>
-    <div class="chart-container bar-container">
-      <canvas
-        baseChart
-        [data]="lineChartData"
-        [type]="lineChartType"
-        [options]="lineChartOptions">
-      </canvas>
+
+  <!-- ── FILA 3: PESTAÑAS ───────────────────────────────────── -->
+  <div class="card tabs-card" *ngIf="!cargando">
+
+    <div class="tabs-header">
+      <h3 class="card-title">Información detallada</h3>
+      <p class="card-subtitle">Explora los datos del vademécum por categoría</p>
     </div>
+
+    <!-- Botones de pestañas -->
+    <div class="tabs-nav">
+      @for (tab of tabs; track tab.id) {
+        <button
+          class="tab-btn"
+          [class.active]="tabActiva() === tab.id"
+          (click)="setTab(tab.id)">
+          <span class="tab-icon">{{ tab.icon }}</span>
+          <span class="tab-label">{{ tab.label }}</span>
+        </button>
+      }
+    </div>
+
+    <!-- Contenido de la pestaña activa -->
+    <div class="tab-content">
+      <table class="info-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>{{ tabHeaders[tabActiva()] }}</th>
+            <th>Productos</th>
+            <th>Participación</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of tabData[tabActiva()]; track row.nombre; let i = $index) {
+            <tr>
+              <td class="num-col">{{ i + 1 }}</td>
+              <td class="name-col">{{ row.nombre }}</td>
+              <td class="count-col">{{ row.cantidad }}</td>
+              <td class="bar-col">
+                <div class="mini-bar-wrap">
+                  <div
+                    class="mini-bar"
+                    [style.width.%]="(row.cantidad / totalProductos) * 100">
+                  </div>
+                  <span class="mini-pct">
+                    {{ ((row.cantidad / totalProductos) * 100) | number:'1.1-1' }}%
+                  </span>
+                </div>
+              </td>
+            </tr>
+          }
+          @if (tabData[tabActiva()].length === 0) {
+            <tr>
+              <td colspan="4" class="empty-tab">Sin datos disponibles</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
   </div>
- 
+
+  <!-- Skeleton mientras carga -->
+  <div class="card tabs-card skeleton-tabs" *ngIf="cargando">
+    <p style="color: #64748b; text-align:center; padding: 40px;">⏳ Cargando datos...</p>
+  </div>
+
 </div>
  

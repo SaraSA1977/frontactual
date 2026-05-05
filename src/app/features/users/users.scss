@@ -1,0 +1,297 @@
+// src/app/features/users/users.scss
+
+.users-container {
+  padding: 8px 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+// ── Header ────────────────────────────────────────────────────
+.users-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+
+  h2 {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e2a38;
+  }
+}
+
+.badge {
+  background: #e3f2fd;
+  color: #1565c0;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+// ── Botones ───────────────────────────────────────────────────
+.btn-primary {
+  background: #1f2a37;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover    { background: #2d3f53; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #e2e8f0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #e2e8f0; }
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #dc2626; }
+}
+
+.btn-edit, .btn-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 17px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background 0.15s;
+
+  &:hover { background: #f1f5f9; }
+}
+
+// ── Estados ───────────────────────────────────────────────────
+.estado {
+  text-align: center;
+  padding: 40px;
+  color: #64748b;
+  font-size: 15px;
+
+  &.error {
+    color: #ef4444;
+    background: #fef2f2;
+    border-radius: 10px;
+  }
+}
+
+// ── Tabla ─────────────────────────────────────────────────────
+.table-wrap {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #1f2a37;
+
+  th {
+    padding: 14px 18px;
+    text-align: left;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+}
+
+tbody {
+  tr {
+    border-bottom: 1px solid #f1f5f9;
+    transition: background 0.15s;
+
+    &:last-child { border-bottom: none; }
+    &:hover      { background: #f8fafc; }
+  }
+
+  td {
+    padding: 13px 18px;
+    font-size: 14px;
+    color: #334155;
+  }
+}
+
+.acciones {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+// ── Pill activo/inactivo ──────────────────────────────────────
+.pill {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.activo   { background: #dcfce7; color: #16a34a; }
+  &.inactivo { background: #fee2e2; color: #dc2626; }
+}
+
+// ── Sin datos ─────────────────────────────────────────────────
+.empty {
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+  padding: 40px !important;
+}
+
+// ── Modal ─────────────────────────────────────────────────────
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  background: white;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.2s ease;
+  overflow: hidden;
+
+  &.modal-sm { max-width: 380px; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #f1f5f9;
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e2a38;
+  }
+
+  &.danger h3 { color: #dc2626; }
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+
+  &:hover { background: #f1f5f9; color: #334155; }
+}
+
+.modal-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+  }
+
+  input, select {
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1e2a38;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus { border-color: #1f2a37; }
+  }
+}
+
+.hint {
+  font-weight: 400;
+  color: #94a3b8;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.modal-error {
+  color: #ef4444;
+  font-size: 13px;
+  margin: 0;
+  background: #fef2f2;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.confirm-msg {
+  margin: 0;
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.5;
+}

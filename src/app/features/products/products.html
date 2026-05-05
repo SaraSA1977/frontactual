@@ -1,21 +1,23 @@
+<!-- src/app/features/products/products.html -->
+
 <div class="container">
-  
-  <!-- 1. Buscador Mejorado Estéticamente -->
+
+  <!-- 1. Buscador con ícono dentro a la derecha -->
   <div class="search-container">
     <div class="search-wrapper">
-      <span class="search-icon">🔍</span>
-      <input 
-        type="text" 
-        [(ngModel)]="searchText" 
+      <input
+        type="text"
+        [(ngModel)]="searchText"
         placeholder="Buscar medicamento o principio activo..."
         class="search-input">
+      <span class="search-icon">🔍</span>
     </div>
   </div>
 
   <!-- 2. Filtros de Categorías Principales -->
   <div class="filters-main">
-    <button 
-      *ngFor="let cat of categories" 
+    <button
+      *ngFor="let cat of categories"
       (click)="selectCategory(cat)"
       [class.active]="selectedCategory === cat"
       class="btn-filter">
@@ -25,8 +27,8 @@
 
   <!-- 3. Filtros de Subcategorías (Familias) -->
   <div class="filters-sub" *ngIf="getSubcategories().length > 1">
-    <button 
-      *ngFor="let sub of getSubcategories()" 
+    <button
+      *ngFor="let sub of getSubcategories()"
       (click)="selectSubcategory(sub)"
       [class.active]="selectedSubcategory === sub"
       class="btn-subfilter">
@@ -37,22 +39,20 @@
   <!-- 4. Cuadrícula de Productos -->
   <div class="products-grid">
     <div class="card" *ngFor="let p of filterProducts()">
-      
-      <!-- Estrella de favoritos corregida -->
-      <button 
-        class="btn-fav" 
-        [class.active]="p.favorite" 
+
+      <button
+        class="btn-fav"
+        [class.active]="p.favorite"
         (click)="toggleFavorite(p)">
         {{ p.favorite ? '★' : '☆' }}
       </button>
-      
+
       <img [src]="p.image" [alt]="p.name" class="product-img">
-      
+
       <div class="card-body">
         <h3 class="product-name">{{ p.name }}</h3>
         <p class="product-info"><strong>Genérico:</strong> {{ p.generic_name }}</p>
         <p class="product-info"><strong>Familia:</strong> {{ p.family }}</p>
-        
         <button class="btn-more" (click)="verDetalle(p)">Ver más detalle</button>
       </div>
     </div>
@@ -62,29 +62,29 @@
   <div class="modal-overlay" *ngIf="selectedProduct" (click)="cerrarDetalle()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="btn-close" (click)="cerrarDetalle()">&times;</button>
-      
+
       <div class="modal-header">
         <h2>{{ selectedProduct.name }}</h2>
         <p class="subtitle">{{ selectedProduct.generic_name }}</p>
       </div>
-      
+
       <div class="modal-body">
         <div class="info-row">
           <strong>Mecanismo de acción:</strong>
           <p>{{ selectedProduct.mecanismo }}</p>
         </div>
-        
+
         <div class="info-grid">
           <div class="info-item"><strong>Laboratorio:</strong> <br> {{ selectedProduct.laboratorio }}</div>
           <div class="info-item"><strong>Concentración:</strong> <br> {{ selectedProduct.concentracion }}</div>
           <div class="info-item"><strong>Forma:</strong> <br> {{ selectedProduct.forma }}</div>
         </div>
-        
+
         <div class="info-row">
           <strong>Posología:</strong>
           <p>{{ selectedProduct.posologia }}</p>
         </div>
-        
+
         <div class="info-row" *ngIf="selectedProduct.notas">
           <strong>Notas:</strong>
           <p>{{ selectedProduct.notas }}</p>
@@ -92,4 +92,5 @@
       </div>
     </div>
   </div>
+
 </div>

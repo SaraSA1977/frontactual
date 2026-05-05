@@ -1,28 +1,51 @@
+<!-- src/app/app.html -->
+
 <ng-container *ngIf="esLogin">
   <router-outlet></router-outlet>
 </ng-container>
 
 <div class="layout" *ngIf="!esLogin">
 
-  <app-menu></app-menu>
+  <!-- ── HEADER (franja blanca) ─────────────────────────────── -->
+  <div class="header">
 
-  <div class="main">
-    <div class="header">
-      <div class="logo">
-        <img src="images/logovademecum.png" alt="Logo">
+    <div class="logo">
+      <img src="images/logovademecum.png" alt="Logo Vademécum">
+    </div>
+
+    <div class="page-title">{{ tituloPagina }}</div>
+
+    <div class="user-menu" (click)="toggleUserMenu()">
+      👤 Full Name
+      <div class="dropdown" *ngIf="menuUsuarioAbierto">
+        <div (click)="cerrarSesion()">Cerrar sesión</div>
       </div>
-      <div class="page-title">{{ tituloPagina }}</div>
-      <div class="user-menu" (click)="toggleUserMenu()">
-        👤 Full Name
-        <div class="dropdown" *ngIf="menuUsuarioAbierto">
-          <div (click)="cerrarSesion()">Cerrar sesión</div>
-        </div>
-      </div>
+    </div>
+
+  </div>
+
+  <!-- ── FILA: sidebar + contenido ─────────────────────────── -->
+  <div class="body-row">
+
+    <div class="sidebar" [class.abierto]="menuAbierto()">
+
+      <!-- Hamburguesa siempre visible en el azul -->
+      <div class="menu-icon" (click)="toggleMenu()">☰</div>
+
+      <!-- FIX: menuAbierto() con paréntesis porque es un signal -->
+      <ul class="menu-list" *ngIf="menuAbierto()">
+        <li (click)="navegar('/home')">🏠 Home</li>
+        <li (click)="navegar('/products')">📦 Productos</li>
+        <li (click)="navegar('/dashboard')">📊 Dashboard</li>
+        <li *ngIf="esAdmin()" (click)="navegar('/users')">👤 Usuarios</li>
+      </ul>
+
     </div>
 
     <div class="content">
       <router-outlet></router-outlet>
     </div>
+
   </div>
 
 </div>

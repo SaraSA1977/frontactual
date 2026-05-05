@@ -12,6 +12,22 @@ export interface User {
   is_active: number;
 }
 
+export interface CreateUserPayload {
+  identification: string;
+  email: string;
+  full_name: string;
+  password: string;
+  is_active: number;
+}
+
+export interface UpdateUserPayload {
+  identification?: string;
+  email?: string;
+  full_name?: string;
+  password?: string;
+  is_active?: number;
+}
+
 type GetUserApiResponse = {
   status: 'success' | 'error';
   message?: string;
@@ -29,7 +45,7 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  // 🔥 Obtener todos los usuarios
+  // ── Obtener todos los usuarios ────────────────────────────
   getAllUsers(): Observable<User[]> {
     return this.http.get<GetUserApiResponse | User[]>(`${this.apiBaseUrl}/getAll`).pipe(
       tap((response) => {
@@ -38,7 +54,6 @@ export class UserService {
           console.error('Respuesta inesperada al cargar usuarios', response);
           return;
         }
-
         if ('status' in response && response.status === 'error') {
           console.error('Error fetching users:', response.message);
         }
@@ -49,29 +64,29 @@ export class UserService {
           users?: User[];
         };
 
-        if (Array.isArray(response)) {
-          return response;
-        }
-
-        if (payload?.data?.users) {
-          return payload.data.users;
-        }
-
-        if (Array.isArray(payload?.data?.user)) {
-          return payload.data.user;
-        }
-
-        if (Array.isArray(payload?.data)) {
-          return payload.data;
-        }
-
-        if (Array.isArray(payload?.users)) {
-          return payload.users;
-        }
+        if (Array.isArray(response))          return response;
+        if (payload?.data?.users)             return payload.data.users;
+        if (Array.isArray(payload?.data?.user)) return payload.data.user;
+        if (Array.isArray(payload?.data))     return payload.data;
+        if (Array.isArray(payload?.users))    return payload.users;
 
         return [];
       })
     );
   }
 
+  // ── Crear usuario ─────────────────────────────────────────
+  createUser(payload: CreateUserPayload): Observable<any> {
+    return this.http.post(`${this.apiBaseUrl}/create`, payload);
+  }
+
+  // ── Editar usuario ────────────────────────────────────────
+  updateUser(id: number, payload: UpdateUserPayload): Observable<any> {
+    return this.http.put(`${this.apiBaseUrl}/update/${id}`, payload);
+  }
+
+  // ── Eliminar usuario ──────────────────────────────────────
+  deleteUser(id: number): Observable<any> {
+    return this.http.delete(`${this.apiBaseUrl}/delete/${id}`);
+  }
 }

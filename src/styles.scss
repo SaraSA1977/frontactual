@@ -1,153 +1,176 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
+// src/app/app.scss
+
 @use '@angular/material' as mat;
 
 html {
   height: 100%;
-  @include mat.theme(
-    (
-      color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
-      ),
-      typography: Roboto,
-      density: 0,
-    )
-  );
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
 }
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
   color-scheme: light;
-
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
-
-  // Reset the user agent margin.
   margin: 0;
   height: 100%;
-}
-/* GLOBAL */
-body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background: #f5f7fa;
 }
 
-/* LAYOUT GENERAL */
+* { box-sizing: border-box; }
+
+// ── Layout: columna → header arriba, fila abajo ───────────────
 .layout {
   display: flex;
-  height: 100vh;
-}
-
-/* SIDEBAR */
-app-menu {
-  width: 70px;
-  background: #1f2a37;
-  color: white;
-}
-
-/* CONTENIDO PRINCIPAL */
-.main {
-  flex: 1;
-  display: flex;
   flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
 }
 
-/* HEADER */
+// ── Header blanco ─────────────────────────────────────────────
 .header {
-  height: 60px;
+  height: 64px;
+  flex-shrink: 0;
   background: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 0 24px 0 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  z-index: 100;
 }
 
-/* LOGO */
-.logo img {
-  height: 45px;
+// Logo — izquierda, más grande
+.logo {
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 56px;        // FIX: más grande
+    width: auto;
+  }
 }
 
-/* TÍTULO CENTRAL (Home / Products / Users) */
+// Título central
 .page-title {
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 700;
   color: #333;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-/* CONTENIDO */
-.content {
-  flex: 1;
-  padding: 20px;
-  background: #f5f7fa;
-}
-
-/* USER MENU */
+// Usuario derecha
 .user-menu {
   position: relative;
   cursor: pointer;
   font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
 }
 
-/* DROPDOWN */
 .dropdown {
   position: absolute;
-  top: 45px;
+  top: 48px;
   right: 0;
   background: white;
   border: 1px solid #ddd;
   border-radius: 10px;
   width: 160px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
   overflow: hidden;
-  animation: fadeIn 0.2s ease-in-out;
+  z-index: 200;
+  animation: fadeIn 0.2s ease;
 }
 
-/* OPCIONES */
 .dropdown div {
   padding: 12px;
   cursor: pointer;
-  transition: 0.2s;
+  &:hover { background: #f0f0f0; }
 }
 
-.dropdown div:hover {
-  background: #f0f0f0;
-}
-
-/* ANIMACIÓN SUAVE */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-5px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* 🔥 CONTENEDOR DE CARDS */
-.cards-container {
+// ── Fila inferior ─────────────────────────────────────────────
+.body-row {
   display: flex;
-  gap: 20px;
-  justify-content: center;
-  flex-wrap: nowrap;   /* UNA SOLA FILA */
-  overflow-x: auto;    /* scroll si no caben */
+  flex: 1;
+  overflow: hidden;
 }
 
-/* 🔥 CADA CARD */
-.card {
-  min-width: 250px;
-  flex: 0 0 auto;
+// ── Sidebar azul ──────────────────────────────────────────────
+// Cerrado: solo 48px (ancho del ícono ☰)
+// Abierto: 220px con texto completo
+.sidebar {
+  width: 48px;                        // FIX: cerrado = solo el ícono
+  flex-shrink: 0;
+  background: #1f2a37;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.3s ease;
+}
+
+.sidebar.abierto {
+  width: 220px;                       // FIX: abierto = texto visible
+}
+
+// Hamburguesa — siempre visible en el azul
+.menu-icon {
+  font-size: 22px;
+  color: white;                       // FIX: blanco sobre azul
+  padding: 14px 13px;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+  transition: background 0.2s;
+
+  &:hover { background: rgba(255,255,255,0.08); }
+}
+
+// Items de navegación
+.menu-list {
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.menu-list li {
+  padding: 12px 20px;
+  font-size: 15px;
+  color: #cbd5e1;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 6px;
+  margin: 2px 8px;
+  transition: background 0.2s, color 0.2s;
+
+  &:hover {
+    background: rgba(255,255,255,0.09);
+    color: #f1f5f9;
+  }
+}
+
+// ── Contenido ─────────────────────────────────────────────────
+.content {
+  flex: 1;
+  padding: 24px;
+  background: #f5f7fa;
+  overflow-y: auto;
+  min-width: 0;
 }

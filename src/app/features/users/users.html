@@ -1,23 +1,148 @@
-<h2>Usuarios</h2>
+<!-- src/app/features/users/users.html -->
 
-<table border="1" width="100%">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nombre</th>
-      <th>Email</th>
-      <th>Identificación</th>
-    </tr>
-  </thead>
+<div class="users-container">
 
-  <tbody>
-    @for (u of usuarios(); track u.id) {
-      <tr>
-        <td>{{ u.id }}</td>
-        <td>{{ u.full_name }}</td>
-        <td>{{ u.email }}</td>
-        <td>{{ u.identification }}</td>
-      </tr>
-    }
-  </tbody>
-</table>
+  <!-- ── HEADER ──────────────────────────────────────────── -->
+  <div class="users-header">
+    <div>
+      <h2>Gestión de Usuarios</h2>
+      <span class="badge">{{ usuarios().length }} registros</span>
+    </div>
+    <button class="btn-primary" (click)="abrirCrear()">+ Nuevo usuario</button>
+  </div>
+
+  <!-- ── CARGANDO ─────────────────────────────────────────── -->
+  <div class="estado" *ngIf="cargando()">
+    <p>⏳ Cargando usuarios...</p>
+  </div>
+
+  <!-- ── ERROR ────────────────────────────────────────────── -->
+  <div class="estado error" *ngIf="error()">
+    <p>⚠️ {{ error() }}</p>
+  </div>
+
+  <!-- ── TABLA ────────────────────────────────────────────── -->
+  <div class="table-wrap" *ngIf="!cargando() && !error()">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre completo</th>
+          <th>Email</th>
+          <th>Identificación</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (u of usuarios(); track u.id) {
+          <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.full_name }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.identification }}</td>
+            <td>
+              <span class="pill"
+                [class.activo]="u.is_active === 1"
+                [class.inactivo]="u.is_active !== 1">
+                {{ u.is_active === 1 ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td class="acciones">
+              <button class="btn-edit" (click)="abrirEditar(u)" title="Editar">✏️</button>
+              <button class="btn-delete" (click)="confirmarEliminar(u)" title="Eliminar">🗑️</button>
+            </td>
+          </tr>
+        }
+
+        @if (usuarios().length === 0) {
+          <tr>
+            <td colspan="6" class="empty">No hay usuarios registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ── MODAL CREAR / EDITAR ─────────────────────────────────── -->
+<div class="modal-backdrop" *ngIf="modalMode()" (click)="cerrarModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+
+    <div class="modal-header">
+      <h3>{{ modalMode() === 'crear' ? 'Nuevo usuario' : 'Editar usuario' }}</h3>
+      <button class="modal-close" (click)="cerrarModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="field">
+        <label>Nombre completo</label>
+        <input type="text" [(ngModel)]="form.full_name" placeholder="Ej: Juan Pérez" />
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="form.email" placeholder="correo@ejemplo.com" />
+      </div>
+
+      <div class="field">
+        <label>Identificación</label>
+        <input type="text" [(ngModel)]="form.identification" placeholder="Número de documento" />
+      </div>
+
+      <div class="field">
+        <label>
+          Contraseña
+          <span class="hint" *ngIf="modalMode() === 'editar'">(dejar vacío para no cambiar)</span>
+        </label>
+        <input type="password" [(ngModel)]="form.password" placeholder="••••••••" />
+      </div>
+
+      <div class="field">
+        <label>Estado</label>
+        <select [(ngModel)]="form.is_active">
+          <option [ngValue]="1">Activo</option>
+          <option [ngValue]="0">Inactivo</option>
+        </select>
+      </div>
+
+      <p class="modal-error" *ngIf="modalError()">⚠️ {{ modalError() }}</p>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-primary" (click)="guardar()" [disabled]="modalCargando()">
+        {{ modalCargando() ? 'Guardando...' : (modalMode() === 'crear' ? 'Crear' : 'Guardar cambios') }}
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── MODAL CONFIRMACIÓN ELIMINAR ──────────────────────────── -->
+<div class="modal-backdrop" *ngIf="usuarioAEliminar()" (click)="cancelarEliminar()">
+  <div class="modal modal-sm" (click)="$event.stopPropagation()">
+
+    <div class="modal-header danger">
+      <h3>Eliminar usuario</h3>
+      <button class="modal-close" (click)="cancelarEliminar()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <p class="confirm-msg">
+        ¿Seguro que quieres eliminar a
+        <strong>{{ usuarioAEliminar()?.full_name }}</strong>?
+        Esta acción no se puede deshacer.
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="cancelarEliminar()">Cancelar</button>
+      <button class="btn-danger" (click)="eliminar()">Sí, eliminar</button>
+    </div>
+
+  </div>
+</div>
