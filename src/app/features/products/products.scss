@@ -1,6 +1,5 @@
 // src/app/features/products/products.scss
 
-// ── Contenedor principal ──────────────────────────────────────
 .container {
   padding: 20px;
   max-width: 1200px;
@@ -12,42 +11,41 @@
   margin-bottom: 20px;
 }
 
-// FIX: el wrapper es position:relative para que el ícono
-// se posicione absolutamente dentro de él
+// FIX: wrapper con position:relative para anclar la lupa
 .search-wrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-// Input ocupa todo el ancho, padding-right deja espacio al ícono
+// Input con padding-right para no tapar el texto con la lupa
 .search-input {
   width: 100%;
-  padding: 12px 44px 12px 16px; // ← derecha: 44px para el ícono
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 12px 48px 12px 16px; // ← derecha: 48px = espacio para el ícono
+  border-radius: 10px;
+  border: 1px solid #dbeafe;
   font-size: 16px;
   outline: none;
-  transition: border-color 0.2s;
   box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
 
   &:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
   }
 }
 
-// Ícono posicionado dentro del input, a la derecha
+// FIX: lupa posicionada absolutamente a la derecha del input
 .search-icon {
   position: absolute;
-  right: 14px;
+  right: 14px;           // pegada al borde derecho
   font-size: 18px;
-  pointer-events: none; // no interfiere con el click en el input
+  pointer-events: none;  // no bloquea el click sobre el input
   line-height: 1;
-  color: #999;
+  user-select: none;
 }
 
-// ── Filtros principales ───────────────────────────────────────
+// ── Filtros ───────────────────────────────────────────────────
 .filters-main,
 .filters-sub {
   display: flex;
@@ -58,58 +56,55 @@
   button {
     padding: 8px 16px;
     border-radius: 20px;
-    border: 1px solid #007bff;
+    border: 1px solid #2563eb;
     background: white;
-    color: #007bff;
+    color: #2563eb;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.3s;
 
     &.active {
-      background: #007bff;
+      background: #2563eb;
       color: white;
     }
 
     &:hover {
-      background: #e7f1ff;
+      background: #eff6ff;
     }
   }
 }
 
-// Subcategorías
 .filters-sub button {
-  border-color: #6c757d;
-  color: #6c757d;
-  font-size: 0.9em;
+  border-color: #93c5fd;
+  color: #1e3a8a;
 
   &.active {
-    background: #6c757d;
+    background: #1e3a8a;
     color: white;
   }
 }
 
-// ── Grid de tarjetas ──────────────────────────────────────────
+// ── Grid ──────────────────────────────────────────────────────
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 25px;
 }
 
+// ── Card ──────────────────────────────────────────────────────
 .card {
   position: relative;
-  border: 1px solid #eee;
-  border-radius: 12px;
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background: white;
+  background: #f8fafc;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.08);
 
   &:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
   }
 
-  // Estrella de favoritos
   .btn-fav {
     position: absolute;
     top: 12px;
@@ -117,23 +112,14 @@
     z-index: 5;
     background: transparent !important;
     border: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-    padding: 0;
-    margin: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     font-size: 1.6rem;
-    color: #ccc;
-    transition: all 0.3s ease;
-    -webkit-tap-highlight-color: transparent;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: 0.3s;
 
     &.active {
-      color: #ffc107;
-      transform: scale(1.15);
-      filter: drop-shadow(0 0 3px rgba(255, 193, 7, 0.3));
+      color: #facc15;
+      transform: scale(1.2);
     }
 
     &:active {
@@ -141,30 +127,38 @@
     }
   }
 
-  .product-img {
-    width: 100%;
+  .img-container {
+    background: #ffffff;
     height: 200px;
-    object-fit: contain;
-    background: #f9f9f9;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 10px;
+    border-bottom: 1px solid #e5e7eb;
+    cursor: pointer;
+  }
+
+  .product-img {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
   }
 
   .card-body {
     padding: 15px;
     text-align: center;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
 
     .product-name {
       margin: 10px 0;
-      color: #333;
+      color: #1e293b;
       font-weight: bold;
+      font-size: 1.1rem;
     }
 
     .product-info {
       font-size: 0.9em;
-      color: #666;
+      color: #64748b;
       margin: 5px 0;
     }
   }
@@ -172,16 +166,16 @@
   .btn-more {
     margin: 10px 15px 15px;
     padding: 10px;
-    background: #283fa7;
+    background: #2563eb;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     cursor: pointer;
     font-weight: 600;
-    transition: background 0.2s;
+    transition: 0.3s;
 
     &:hover {
-      background: #212488;
+      background: #1e40af;
     }
   }
 }
@@ -189,11 +183,9 @@
 // ── Modal ─────────────────────────────────────────────────────
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(15, 23, 42, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -212,55 +204,25 @@
 
   .btn-close {
     position: absolute;
-    top: 10px;
-    right: 15px;
+    top: 10px; right: 15px;
     font-size: 24px;
     border: none;
     background: none;
     cursor: pointer;
-    color: #999;
+    color: #94a3b8;
 
-    &:hover {
-      color: #333;
-    }
+    &:hover { color: #1e293b; }
   }
 
-  .modal-header {
-    margin-bottom: 20px;
-
-    h2 {
-      margin: 0 0 4px;
-      color: #1e2a38;
-    }
-
-    .subtitle {
-      margin: 0;
-      color: #666;
-      font-style: italic;
-    }
-  }
-
-  .info-row {
-    margin-bottom: 15px;
-
-    p {
-      margin: 4px 0 0;
-      color: #555;
-    }
-  }
+  .info-row { margin-bottom: 15px; }
 
   .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
     margin-bottom: 15px;
-    background: #f8f9fa;
+    background: #f1f5f9;
     padding: 10px;
     border-radius: 8px;
-
-    .info-item {
-      font-size: 14px;
-      color: #444;
-    }
   }
 }

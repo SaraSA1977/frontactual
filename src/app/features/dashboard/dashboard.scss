@@ -1,10 +1,7 @@
 // src/app/features/dashboard/dashboard.scss
 
-:host {
-  display: block;
-}
+:host { display: block; }
 
-// ── Variables ───────────────────────────────────────────────
 $bg-base:    #0a0f1a;
 $bg-card:    rgba(255, 255, 255, 0.05);
 $border:     rgba(255, 255, 255, 0.08);
@@ -13,7 +10,7 @@ $text-muted: #64748b;
 $radius:     16px;
 $accent:     #4ade80;
 
-// ── Layout ──────────────────────────────────────────────────
+// ── Layout ────────────────────────────────────────────────────
 .page {
   padding: 28px 32px;
   min-height: 100vh;
@@ -22,7 +19,7 @@ $accent:     #4ade80;
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
 
-// ── Header ──────────────────────────────────────────────────
+// ── Header ────────────────────────────────────────────────────
 .head {
   display: flex;
   justify-content: space-between;
@@ -32,26 +29,15 @@ $accent:     #4ade80;
   flex-wrap: wrap;
 }
 
-.title h1 {
-  margin: 0 0 4px;
-  font-size: 26px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: #f1f5f9;
-}
-
-.title p {
-  margin: 0;
-  color: $text-muted;
-  font-size: 14px;
-}
+.title h1 { margin: 0 0 4px; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: #f1f5f9; }
+.title p  { margin: 0; color: $text-muted; font-size: 14px; }
 
 .head-badge {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(74, 222, 128, 0.08);
-  border: 1px solid rgba(74, 222, 128, 0.2);
+  background: rgba(74,222,128,0.08);
+  border: 1px solid rgba(74,222,128,0.2);
   border-radius: 20px;
   padding: 6px 14px;
   font-size: 13px;
@@ -73,7 +59,7 @@ $accent:     #4ade80;
   50%       { opacity: 0.4; }
 }
 
-// ── KPI Grid ────────────────────────────────────────────────
+// ── KPI Grid ──────────────────────────────────────────────────
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -89,13 +75,13 @@ $accent:     #4ade80;
   display: flex;
   align-items: center;
   gap: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   backdrop-filter: blur(6px);
   transition: transform 0.2s, box-shadow 0.2s;
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.3);
   }
 }
 
@@ -108,7 +94,7 @@ $accent:     #4ade80;
 .kpi-teal   { border-left: 3px solid #2dd4bf; .kpi-value { color: #2dd4bf; } }
 .kpi-purple { border-left: 3px solid #c084fc; .kpi-value { color: #c084fc; } }
 
-// ── Grid 2 columnas ─────────────────────────────────────────
+// ── Grid 2 columnas ───────────────────────────────────────────
 .grid2 {
   display: grid;
   grid-template-columns: 3fr 2fr;
@@ -116,20 +102,20 @@ $accent:     #4ade80;
   margin-bottom: 16px;
 }
 
-// ── Cards ───────────────────────────────────────────────────
+// ── Cards ─────────────────────────────────────────────────────
 .card {
   background: $bg-card;
   border: 1px solid $border;
   border-radius: $radius;
   padding: 22px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   backdrop-filter: blur(6px);
 }
 
 .card-title    { margin: 0 0 4px; font-size: 16px; font-weight: 700; color: #f1f5f9; }
 .card-subtitle { margin: 0 0 18px; font-size: 13px; color: $text-muted; }
 
-// ── Chart containers ────────────────────────────────────────
+// ── Chart containers principales ──────────────────────────────
 .chart-container {
   position: relative;
   width: 100%;
@@ -143,20 +129,16 @@ $accent:     #4ade80;
   }
 }
 
-// ── PESTAÑAS ────────────────────────────────────────────────
-.tabs-card {
-  margin-top: 16px;
-}
+// ── PESTAÑAS ──────────────────────────────────────────────────
+.tabs-card { margin-top: 16px; }
 
-.tabs-header {
-  margin-bottom: 0;
-}
+.tabs-header { margin-bottom: 0; }
 
 .tabs-nav {
   display: flex;
-  gap: 6px;
+  gap: 4px;
   flex-wrap: wrap;
-  margin: 16px 0;
+  margin: 16px 0 0;
   border-bottom: 1px solid $border;
   padding-bottom: 0;
 }
@@ -189,15 +171,15 @@ $accent:     #4ade80;
   &.active {
     color: $accent;
     border-bottom-color: $accent;
-    background: rgba(74, 222, 128, 0.06);
+    background: rgba(74,222,128,0.06);
     font-weight: 600;
   }
 }
 
-// ── Tabla de pestañas ────────────────────────────────────────
+// ── Contenido de pestaña ──────────────────────────────────────
 .tab-content {
-  overflow-x: auto;
-  animation: fadeIn 0.2s ease;
+  padding-top: 20px;
+  animation: fadeIn 0.25s ease;
 }
 
 @keyframes fadeIn {
@@ -205,85 +187,68 @@ $accent:     #4ade80;
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.info-table {
+.tab-pane {
   width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
+}
 
-  thead tr {
-    border-bottom: 1px solid $border;
+// Contenedor de gráfica dentro de pestaña
+// .tall para gráficas horizontales que necesitan más altura
+.tab-chart-container {
+  position: relative;
+  width: 100%;
+  height: 320px;
 
-    th {
-      padding: 10px 14px;
-      text-align: left;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: $text-muted;
-    }
-  }
+  &.tall { height: 420px; }
 
-  tbody tr {
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    transition: background 0.15s;
-
-    &:last-child { border-bottom: none; }
-    &:hover { background: rgba(255,255,255,0.03); }
-  }
-
-  td {
-    padding: 11px 14px;
-    color: $text-main;
-    vertical-align: middle;
+  canvas {
+    position: absolute !important;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
 
-.num-col   { color: $text-muted; font-size: 12px; width: 40px; }
-.name-col  { font-weight: 500; max-width: 320px; }
-.count-col { font-weight: 700; color: $accent; width: 80px; text-align: center; }
-.bar-col   { width: 200px; }
-
-.mini-bar-wrap {
+// ── Skeleton cargando ─────────────────────────────────────────
+.skeleton-wrap {
+  padding: 20px 0;
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.mini-bar {
-  height: 6px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #4ade80, #2dd4bf);
-  min-width: 2px;
-  transition: width 0.4s ease;
+.skeleton-bar {
+  height: 28px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+
+  &:nth-child(1) { width: 80%; }
+  &:nth-child(2) { width: 65%; }
+  &:nth-child(3) { width: 90%; }
+  &:nth-child(4) { width: 55%; }
+  &:nth-child(5) { width: 75%; }
 }
 
-.mini-pct {
-  font-size: 11px;
-  color: $text-muted;
-  white-space: nowrap;
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-.empty-tab {
-  text-align: center;
-  color: $text-muted;
-  font-style: italic;
-  padding: 32px !important;
-}
-
-// ── Responsive ──────────────────────────────────────────────
+// ── Responsive ────────────────────────────────────────────────
 @media (max-width: 1100px) {
-  .kpi-grid  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .grid2     { grid-template-columns: 1fr; }
+  .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid2    { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
-  .page      { padding: 16px; }
-  .kpi-grid  { grid-template-columns: 1fr; }
+  .page     { padding: 16px; }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .head     { flex-direction: column; align-items: flex-start; }
   .chart-container { height: 220px; }
-  .head      { flex-direction: column; align-items: flex-start; }
-  .tabs-nav  { gap: 4px; }
-  .tab-btn   { padding: 8px 12px; font-size: 12px; }
+  .tab-chart-container { height: 260px; &.tall { height: 340px; } }
+  .tabs-nav { gap: 2px; }
+  .tab-btn  { padding: 8px 10px; font-size: 12px; }
   .tab-label { display: none; }
 }
  

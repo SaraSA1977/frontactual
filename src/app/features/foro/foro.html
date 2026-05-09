@@ -1,0 +1,149 @@
+<!-- src/app/features/foro/foro.html -->
+
+<div class="foro-container">
+
+  <!-- ── HEADER ─────────────────────────────────────────────── -->
+  <div class="foro-header">
+    <div>
+      <h2>Red de Conocimiento</h2>
+      <p>Comparte dudas con tus compañeros optómetras</p>
+    </div>
+    <button class="btn-nueva" (click)="abrirFormulario()">+ Nueva pregunta</button>
+  </div>
+
+  <!-- ── FORMULARIO NUEVA PREGUNTA ─────────────────────────── -->
+  <div class="form-card" *ngIf="mostrarFormulario">
+    <h3>Nueva pregunta</h3>
+
+    <input
+      class="input-field"
+      type="text"
+      [(ngModel)]="nuevaTitulo"
+      placeholder="Título de tu pregunta...">
+
+    <textarea
+      class="input-field textarea"
+      [(ngModel)]="nuevoCuerpo"
+      placeholder="Describe tu pregunta con detalle...">
+    </textarea>
+
+    <!-- Subir imagen opcional -->
+    <div class="upload-area" (click)="fileInput.click()">
+      <span *ngIf="!imagenPreview">📷 Agregar imagen (opcional)</span>
+      <img *ngIf="imagenPreview" [src]="imagenPreview" class="preview-img">
+    </div>
+    <input #fileInput type="file" accept="image/*" hidden (change)="onFileSelected($event)">
+
+    <div class="form-actions">
+      <button class="btn-cancelar" (click)="cancelarFormulario()">Cancelar</button>
+      <button class="btn-publicar" (click)="publicarPregunta()" [disabled]="publicando">
+        {{ publicando ? 'Publicando...' : 'Publicar' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- ── LISTA DE PREGUNTAS ─────────────────────────────────── -->
+  <div class="preguntas-lista">
+
+    <div class="empty" *ngIf="preguntas.length === 0 && !cargando">
+      <p>😶 Aún no hay preguntas. ¡Sé el primero en preguntar!</p>
+    </div>
+
+    <div class="skeleton" *ngIf="cargando">
+      <div class="skeleton-card" *ngFor="let i of [1,2,3]"></div>
+    </div>
+
+    <div
+      class="pregunta-card"
+      *ngFor="let p of preguntas"
+      [class.cerrada]="p.cerrada">
+
+      <!-- Badge cerrada -->
+      <span class="badge-cerrada" *ngIf="p.cerrada">✅ Cerrada</span>
+
+      <!-- Imagen de la pregunta -->
+      <img *ngIf="p.imagen" [src]="p.imagen" class="pregunta-img" (click)="verImagen(p.imagen)">
+
+      <!-- Contenido -->
+      <div class="pregunta-body">
+        <div class="pregunta-meta">
+          <span class="autor">👤 {{ p.autor_nombre }}</span>
+          <span class="fecha">{{ p.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+        </div>
+
+        <h3 class="pregunta-titulo">{{ p.titulo }}</h3>
+        <p class="pregunta-cuerpo">{{ p.cuerpo }}</p>
+
+        <!-- Respuestas -->
+        <div class="respuestas-wrap">
+          <button class="btn-toggle-resp" (click)="toggleRespuestas(p)">
+            💬 {{ p.respuestas?.length || 0 }} respuesta(s)
+            {{ p.mostrarRespuestas ? '▲' : '▼' }}
+          </button>
+
+          <div class="respuestas-lista" *ngIf="p.mostrarRespuestas">
+
+            <div class="respuesta-item" *ngFor="let r of p.respuestas">
+              <img *ngIf="r.imagen" [src]="r.imagen" class="resp-img" (click)="verImagen(r.imagen)">
+              <div class="resp-body">
+                <div class="resp-meta">
+                  <span class="autor">👤 {{ r.autor_nombre }}</span>
+                  <span class="fecha">{{ r.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+                <p>{{ r.cuerpo }}</p>
+              </div>
+              <!-- Botón eliminar respuesta (solo el autor o admin) -->
+              <button
+                class="btn-eliminar-small"
+                *ngIf="puedeEliminar(r.id_autor)"
+                (click)="eliminarRespuesta(r.id, p)">
+                🗑️
+              </button>
+            </div>
+
+            <!-- Formulario para responder (solo si no está cerrada) -->
+            <div class="form-respuesta" *ngIf="!p.cerrada">
+              <textarea
+                class="input-field textarea-sm"
+                [(ngModel)]="p.nuevaRespuesta"
+                placeholder="Escribe tu respuesta...">
+              </textarea>
+
+              <!-- Subir imagen en respuesta -->
+              <div class="upload-sm" (click)="fileInputResp.click()">
+                <span *ngIf="!p.imagenRespPreview">📷</span>
+                <img *ngIf="p.imagenRespPreview" [src]="p.imagenRespPreview" class="preview-sm">
+              </div>
+              <input #fileInputResp type="file" accept="image/*" hidden (change)="onFileSelectedResp($event, p)">
+
+              <button class="btn-responder" (click)="responder(p)">Responder</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Acciones del autor -->
+        <div class="pregunta-actions">
+          <button
+            class="btn-cerrar"
+            *ngIf="!p.cerrada && esMiPregunta(p.id_autor)"
+            (click)="cerrarPregunta(p)">
+            ✅ Cerrar pregunta
+          </button>
+          <button
+            class="btn-eliminar"
+            *ngIf="puedeEliminar(p.id_autor)"
+            (click)="eliminarPregunta(p.id)">
+            🗑️ Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── MODAL IMAGEN ───────────────────────────────────────── -->
+  <div class="img-modal" *ngIf="imagenModal" (click)="imagenModal = null">
+    <img [src]="imagenModal">
+  </div>
+
+</div>

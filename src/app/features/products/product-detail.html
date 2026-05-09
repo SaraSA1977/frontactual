@@ -1,0 +1,67 @@
+<div class="container-detalle" *ngIf="product">
+
+  <!-- 🔙 Botón volver -->
+ <a routerLink="/products" class="btn-regresar" style="text-decoration: none;">
+  ← Volver a productos
+</a>
+
+  <div class="card-detalle">
+
+    <div class="grid-producto">
+
+      <!-- 🖼 Imagen -->
+      <div class="col-imagen">
+        <div class="img-box">
+          <img 
+            [src]="product.image" 
+            [alt]="product.name" 
+            class="img-principal">
+        </div>
+      </div>
+
+      <!-- 📄 Información -->
+      <div class="col-info">
+
+        <span class="categoria-tag">
+          {{ product.category }}
+        </span>
+
+        <h1 class="titulo-medicamento">
+          {{ product.name }}
+        </h1>
+
+        <p class="nombre-generico">
+          <strong>Principio Activo:</strong> {{ product.generic_name }}
+        </p>
+
+        <hr>
+
+        <div class="bloque-info">
+          <h3>Mecanismo de acción</h3>
+          <p>{{ product.mecanismo }}</p>
+        </div>
+
+        <div class="fila-detalles">
+          <div class="dato">
+            <span class="label">Laboratorio</span>
+            <span class="valor">{{ product.laboratorio }}</span>
+          </div>
+
+          <div class="dato">
+            <span class="label">Concentración</span>
+            <span class="valor">{{ product.concentracion }}</span>
+          </div>
+        </div>
+
+        <div class="bloque-info">
+          <h3>Posología</h3>
+          <p>{{ product.posologia }}</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

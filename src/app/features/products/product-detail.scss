@@ -1,0 +1,159 @@
+/* CONTENEDOR GENERAL */
+.container-detalle {
+  padding: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 80px;
+  
+}
+
+/* 🔙 BOTÓN VOLVER PRO */
+.btn-regresar {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  border: none;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 60px 0 20px 0;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+  transition: all 0.3s ease;
+  display: inline-block;
+
+  
+}
+
+.btn-regresar:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.4);
+}
+
+/* 💎 CARD PRINCIPAL */
+.card-detalle {
+  background: #ffffff; /* BLANCO como pidió el profe */
+  border-radius: 25px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+}
+
+/* GRID */
+.grid-producto {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+}
+
+/* IMAGEN */
+.col-imagen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🖼 CAJA IMAGEN */
+.img-box {
+  width: 100%;
+  max-width: 380px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px;
+}
+
+/* 🖼 IMAGEN MÁS GRANDE */
+.img-principal {
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+  transition: 0.3s;
+}
+
+.img-principal:hover {
+  transform: scale(1.05);
+}
+
+/* INFO */
+.col-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* TAG */
+.categoria-tag {
+  background: #dbeafe;
+  color: #1e40af;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  width: fit-content;
+  font-weight: 500;
+}
+
+/* TITULO */
+.titulo-medicamento {
+  font-size: 2.2rem;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* GENERICO */
+.nombre-generico {
+  color: #475569;
+  font-size: 1rem;
+}
+
+/* BLOQUES */
+.bloque-info {
+  background: #f8fafc;
+  padding: 18px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.bloque-info h3 {
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+/* FILA */
+.fila-detalles {
+  display: flex;
+  gap: 20px;
+}
+
+/* DATOS */
+.dato {
+  background: #eff6ff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  flex: 1;
+}
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.valor {
+  font-weight: bold;
+  color: #1e293b;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .grid-producto {
+    grid-template-columns: 1fr;
+  }
+
+  .img-principal {
+    width: 200px;
+    height: 200px;
+  }
+}

@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataService } from '../../service/data.service';
+import { Router } from '@angular/router';
+import { FavoritosService } from '../../service/favoritosService/favoritosService';
 
 
 
@@ -15,7 +17,7 @@ import { DataService } from '../../service/data.service';
 })
 
 export class Products {
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private router: Router, private favoritosService: FavoritosService) {}
 
   selectedCategory: string = 'Todos';
   selectedSubcategory: string = 'Todas';
@@ -40,7 +42,7 @@ export class Products {
     "forma": "Ungüento",
     "mecanismo": "Bactericida. Inhibe la síntesis de la pared celular bacteriana.",
     "posologia": "Aplicar 1 gota en cada ojo cada 12 horas por 7 días.",
-    "image": "\\images\\Antibioticos\\Inhibidores de pared\\Altracine-A.webp",
+    "image": "\\images\\Antibioticos\\Inhibidores de pared\\Altracine-A.jpg",
     "favorite": false
   },
   {
@@ -98,7 +100,7 @@ export class Products {
     "mecanismo": "Dañan la membrana citoplasmática de las bacterias, generando poros actuando como detergente.",
     "posologia": "Aplicar 1 gota en cada ojo cada 6 horas por 7 días.",
     "notas": "Viene acompañado de Neomicina + Dexametasona",
-    "image": "\\images\\Antibioticos\\Inhibidores de la membrana celular\\WASSERTROL.webp",
+    "image": "\\images\\Antibioticos\\Inhibidores de la membrana celular\\WASSERTROL.jpg",
     "favorite": false
   },
   {
@@ -156,7 +158,7 @@ export class Products {
     "mecanismo": "Inhibidor de la síntesis proteica bacteriana.",
     "posologia": "Según indicación médica.",
     "notas": "Favorece Meibogenesis.",
-    "image": "\\images\\Antibioticos\\Inhibidor de la sintesis proteica Sub unidad 50s\\Meibos.webp",
+    "image": "\\images\\Antibioticos\\Inhibidor de la sintesis proteica Sub unidad 50s\\Meibos.jpg",
     "favorite": false
   },
   {
@@ -873,7 +875,7 @@ export class Products {
     "forma": "Suspensión Oftálmica",
     "mecanismo": "Antibiótico de amplio espectro (quinolona) que inhibe la replicación del ADN bacteriano, combinado con un esteroide que suprime la respuesta inflamatoria ocular.",
     "posologia": "Aplicar 1 gota cada 8 horas.",
-    "image": "\\images\\Antibioticos\\Inhibidores de ácidos nucleicos (quinolonas, bactericida daña el ADN)\\Carteof.webp",
+    "image": "\\images\\Antibioticos\\Inhibidores de ácidos nucleicos (quinolonas, bactericida daña el ADN)\\Carteof.jpg",
     "favorite": false
 
   },
@@ -1378,7 +1380,7 @@ export class Products {
     "forma": "Solución Oftálmica",
     "mecanismo": "Inhibe la miosis intraoperatoria inducida por prostaglandinas y reduce la inflamación ocular.",
     "posologia": "Según indicación médica.",
-    "image": "\\images\\Anti-Inflamatorios\\AINES\\Ocufen.jpeg",
+    "image": "\\images\\Anti-Inflamatorios\\AINES\\Ocufen-1.jpg",
     "favorite": false
   },
   {
@@ -2176,7 +2178,7 @@ export class Products {
     "forma": "Solución oftálmica",
     "mecanismo": "Aumenta la viscosidad de la película lagrimal y forma una capa lubricante sobre córnea y conjuntiva. Reduce la fricción palpebral y mejora la estabilidad lagrimal.",
     "posologia": "Aplicar 1 gota en cada ojo 3 veces al día hasta terminar frasco.",
-    "image": "images/Lubricantes/Polimeros polivinilicos/Oflalub.jpeg",
+    "image": "images/Lubricantes/Polimeros polivinilicos/Oftalub-1.jpg",
     "favorite": false
   },
   {
@@ -2582,7 +2584,7 @@ export class Products {
     "forma": "Gotas oftálmicas (Sistema de conservación iónico)",
     "mecanismo": "Inhibidor de la presión intraocular mediante el aumento de la eliminación de humor acuoso.",
     "posologia": "1 gota al día.",
-    "image": "\\images\\Antiglaucomatosos\\Análogos de prostaglandinas\\Travatan-Z.webp",
+    "image": "\\images\\Antiglaucomatosos\\Análogos de prostaglandinas\\Travatan-Z.jpg",
     "favorite": false
   },
   {
@@ -2759,7 +2761,23 @@ selectSubcategory(sub: string) {
     });
   }
 
-  verDetalle(product: any) { this.selectedProduct = product; }
+verDetalle(product: any) {
+  // Primero le pasamos toda tu lista de 191 productos al servicio
+  this.dataService.setProducts(this.products); 
+  
+  // Luego viajamos a la nueva página
+  this.router.navigate(['/producto', product.id]); 
+}
+  
   cerrarDetalle() { this.selectedProduct = null; }
-  toggleFavorite(p: any) { p.favorite = !p.favorite; }
+  // ── toggleFavorite: ahora llama al backend ────────────────
+  toggleFavorite(p: any) {
+    this.favoritosService.toggleFavorite(p.id).subscribe({
+      next: () => {
+        // Actualizar el campo favorite del producto local usando el signal
+        p.favorite = this.favoritosService.isFavorite(p.id);
+      },
+      error: (err) => console.error('[PRODUCTS] Error en toggleFavorite:', err)
+    });
+  }
 }

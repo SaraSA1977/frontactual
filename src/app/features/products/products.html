@@ -2,7 +2,7 @@
 
 <div class="container">
 
-  <!-- 1. Buscador con ícono dentro a la derecha -->
+  <!-- 1. Buscador con lupa a la derecha -->
   <div class="search-container">
     <div class="search-wrapper">
       <input
@@ -10,6 +10,7 @@
         [(ngModel)]="searchText"
         placeholder="Buscar medicamento o principio activo..."
         class="search-input">
+      <!-- FIX: lupa al final → se posiciona a la derecha con CSS -->
       <span class="search-icon">🔍</span>
     </div>
   </div>
@@ -47,7 +48,9 @@
         {{ p.favorite ? '★' : '☆' }}
       </button>
 
-      <img [src]="p.image" [alt]="p.name" class="product-img">
+      <div class="img-container" (click)="verDetalle(p)">
+        <img [src]="p.image" class="product-img">
+      </div>
 
       <div class="card-body">
         <h3 class="product-name">{{ p.name }}</h3>
