@@ -10,7 +10,6 @@
         [(ngModel)]="searchText"
         placeholder="Buscar medicamento o principio activo..."
         class="search-input">
-      <!-- FIX: lupa al final → se posiciona a la derecha con CSS -->
       <span class="search-icon">🔍</span>
     </div>
   </div>
@@ -38,14 +37,15 @@
   </div>
 
   <!-- 4. Cuadrícula de Productos -->
+  <!-- FIX: trackBy evita que Angular reutilice nodos DOM equivocados -->
   <div class="products-grid">
-    <div class="card" *ngFor="let p of filterProducts()">
+    <div class="card" *ngFor="let p of filterProducts(); trackBy: trackById">
 
       <button
         class="btn-fav"
-        [class.active]="p.favorite"
+        [class.active]="isFavorite(p.id)"
         (click)="toggleFavorite(p)">
-        {{ p.favorite ? '★' : '☆' }}
+        {{ isFavorite(p.id) ? '★' : '☆' }}
       </button>
 
       <div class="img-container" (click)="verDetalle(p)">
