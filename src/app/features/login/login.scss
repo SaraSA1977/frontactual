@@ -1,95 +1,221 @@
-/* VARIABLES: Tus colores originales */
+/* VARIABLES */
 $verde-salud: #2e4197;
 $azul-profundo: #1A3A5F;
 $dorado-detalle: #C5A059;
 $blanco-puro: #ffffff;
 
+/* FONDO */
 .login-background {
   width: 100%;
   min-height: 100vh;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   padding: 40px 0;
+
   font-family: 'Segoe UI', sans-serif;
-  
-  /* FONDO: Tu imagen con filtro corregido */
-  background-image: url('/images/optometria.jpeg'); 
+
+  background-image: url('/images/fondologin.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  
-  /* Filtro oscuro para resaltar la tarjeta */
-  background-color: rgba(0, 0, 0, 0.4); 
+
+  background-color: rgba(0, 0, 0, 0.4);
   background-blend-mode: darken;
 }
 
+/* CARD LOGIN */
 .login-card {
+
   background-color: rgba(249, 249, 247, 0.96);
+
   padding: 40px;
+
   width: 100%;
   max-width: 420px;
+
   box-sizing: border-box;
+
   border-radius: 25px;
+
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+
   border: 2px solid $dorado-detalle;
+
   text-align: center;
-  
-  /* CAMBIO: Transición suave para cuando aparecen los campos de registro */
+
   transition: all 0.4s ease-in-out;
+
   max-height: calc(100vh - 80px);
+
   overflow-y: auto;
 }
 
-/* Estilos de inputs y botones (Tus mismos estilos) */
-.form-group {
-  text-align: left;
-  margin-bottom: 18px;
-  label {
-    font-size: 13px;
-    color: $azul-profundo;
-    font-weight: 600;
-  }
-  input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    &:focus {
-      border-color: $verde-salud;
-      outline: none;
-    }
-  }
-}
-
-.btn-login {
-  width: 100%;
-  padding: 14px;
-  background-color: $verde-salud;
-  color: white;
-  border-radius: 12px;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  &:hover {
-    background-color: $azul-profundo;
-  }
-}
-
-.footer-text a {
-  color: $verde-salud;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-/* Estilos para el logo */
+/* LOGO */
 .div-logo {
   margin-bottom: 20px;
   text-align: center;
 }
 
 .logo-login {
-  max-width: 120px;
-  height: auto;
-  border-radius: 10px;
+  width: 170px;
+  object-fit: contain;
+
+  /* QUITA EFECTO DE CAJA */
+  background: transparent;
+
+  border-radius: 0;
+
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+
+/* TITULO */
+.title {
+  font-size: 2rem;
+  color: $azul-profundo;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* FORM */
+.form-group {
+  text-align: left;
+  margin-bottom: 18px;
+
+  label {
+    font-size: 13px;
+    color: $azul-profundo;
+    font-weight: 600;
+
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+
+    box-sizing: border-box;
+
+    &:focus {
+
+      border-color: $verde-salud;
+
+      outline: none;
+
+      box-shadow: 0 0 0 4px rgba(46, 65, 151, 0.12);
+    }
+  }
+}
+
+/* PASSWORD */
+.password-container {
+  position: relative;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 50px;
+}
+
+.toggle-password {
+
+  position: absolute;
+
+  right: 15px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  cursor: pointer;
+
+  font-size: 18px;
+
+  user-select: none;
+
+  transition: 0.2s;
+}
+
+.toggle-password:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+
+/* BOTÓN */
+.btn-login {
+
+  width: 100%;
+
+  padding: 14px;
+
+  margin-top: 10px;
+
+  background: linear-gradient(
+    135deg,
+    $verde-salud,
+    $azul-profundo
+  );
+
+  color: white;
+
+  border-radius: 14px;
+
+  font-weight: bold;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  border: none;
+
+  transition: 0.3s;
+
+  box-shadow: 0 8px 18px rgba(46, 65, 151, 0.25);
+
+  &:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 12px 22px rgba(26, 58, 95, 0.35);
+  }
+}
+
+/* FOOTER */
+.footer-text {
+
+  margin-top: 22px;
+
+  font-size: 15px;
+
+  color: #444;
+
+  a {
+
+    color: $verde-salud;
+
+    font-weight: bold;
+
+    text-decoration: none;
+
+    transition: 0.3s;
+
+    &:hover {
+      color: $azul-profundo;
+    }
+  }
 }

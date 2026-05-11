@@ -1,0 +1,64 @@
+<div class="profile-container" *ngIf="usuarioActual">
+  <div class="profile-card">
+
+    <div class="profile-header">
+      <div class="avatar">{{ obtenerIniciales(usuarioActual.full_name) }}</div>
+      
+      <h2 *ngIf="!editando">{{ usuarioActual.full_name }}</h2>
+      <input *ngIf="editando" [(ngModel)]="usuarioActual.full_name" class="input-name-edit">
+      
+      <span class="rol">{{ usuarioActual.role || 'Usuario' }}</span>
+    </div>
+
+    <div class="profile-info">
+      <div class="info-item">
+        <label>📧 Correo Electrónico</label>
+        <p>{{ usuarioActual.email }}</p>
+      </div>
+
+      <div class="info-item">
+        <label> Teléfono</label>
+        <p *ngIf="!editando">{{ usuarioActual.telephone || 'No disponible' }}</p>
+        <input *ngIf="editando" [(ngModel)]="usuarioActual.telephone" class="input-edit">
+      </div>
+
+      <div class="info-item">
+        <label>🆔 Documento</label>
+        <p *ngIf="!editando">{{ usuarioActual.identification || 'No disponible' }}</p>
+        <input *ngIf="editando" [(ngModel)]="usuarioActual.identification" class="input-edit">
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button [class.btn-save]="editando" [class.btn-edit]="!editando" (click)="toggleEdicion()">
+        {{ editando ? '💾 Guardar' : '✏️ Editar Perfil' }}
+      </button>
+      <button class="btn-password" (click)="abrirModal()" *ngIf="!editando">
+        🔒 Seguridad
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" *ngIf="mostrarModalPassword">
+  <div class="modal-content">
+    <h3>Cambiar Contraseña</h3>
+    <div class="input-group">
+      <label>Contraseña Actual</label>
+      <input type="password" [(ngModel)]="passwordAnterior">
+    </div>
+    <hr>
+    <div class="input-group">
+      <label>Nueva Contraseña</label>
+      <input type="password" [(ngModel)]="nuevaPassword">
+    </div>
+    <div class="input-group">
+      <label>Confirmar Nueva</label>
+      <input type="password" [(ngModel)]="confirmarPassword">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+      <button class="btn-confirm" (click)="confirmarCambioPassword()">Cambiar</button>
+    </div>
+  </div>
+</div>

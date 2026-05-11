@@ -1,12 +1,9 @@
-<!-- src/app/app.html -->
-
 <ng-container *ngIf="esLogin">
   <router-outlet></router-outlet>
 </ng-container>
 
 <div class="layout" *ngIf="!esLogin">
 
-  <!-- ── HEADER (franja blanca) ─────────────────────────────── -->
   <div class="header">
 
     <div class="logo">
@@ -16,29 +13,56 @@
     <div class="page-title">{{ tituloPagina }}</div>
 
     <div class="user-menu" (click)="toggleUserMenu()">
-      👤 Full Name
+      👤 {{ usuarioActual?.full_name || usuarioActual?.nombre || 'Mi cuenta' }}
+
       <div class="dropdown" *ngIf="menuUsuarioAbierto">
-        <div (click)="cerrarSesion()">Cerrar sesión</div>
+        <div (click)="navegar('/profile')">Perfil</div>
+        <hr style="margin: 0; border: 0.5px solid #eee;">
+        <div (click)="cerrarSesion()" style="color: #d9534f;">⏻ Cerrar sesión</div>
       </div>
     </div>
 
   </div>
 
-  <!-- ── FILA: sidebar + contenido ─────────────────────────── -->
   <div class="body-row">
 
     <div class="sidebar" [class.abierto]="menuAbierto()">
 
-      <!-- Hamburguesa siempre visible en el azul -->
       <div class="menu-icon" (click)="toggleMenu()">☰</div>
 
-      <!-- FIX: menuAbierto() con paréntesis porque es un signal -->
       <ul class="menu-list" *ngIf="menuAbierto()">
-        <li (click)="navegar('/home')">🏠 Home</li>
-        <li (click)="navegar('/products')">📦 Productos</li>
-        <li (click)="navegar('/dashboard')">📊 Dashboard</li>
-        <li (click)="navegar('/foro')">💬 Foro</li>
-        <li *ngIf="esAdmin()" (click)="navegar('/users')">👤 Usuarios</li>
+
+        <li 
+          routerLink="/home"
+          routerLinkActive="active-link">
+          🏠︎ Home
+        </li>
+
+        <li 
+          routerLink="/products"
+          routerLinkActive="active-link">
+          🫙 Productos
+        </li>
+
+        <li 
+          routerLink="/dashboard"
+          routerLinkActive="active-link">
+          📈 Dashboard
+        </li>
+
+        <li 
+          routerLink="/foro"
+          routerLinkActive="active-link">
+          💭 Foro
+        </li>
+
+        <li 
+          *ngIf="esAdmin()"
+          routerLink="/users"
+          routerLinkActive="active-link">
+          👥 Usuarios
+        </li>
+        
       </ul>
 
     </div>

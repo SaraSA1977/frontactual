@@ -53,15 +53,35 @@ export class LoginService {
       );
   }
 
-  // 🆕 REGISTRO (ESTO ES LO QUE FALTABA)
+  // 🆕 REGISTRO
   createUser(data: any) {
     console.log('Enviando registro =>', data);
+    return this.http.post<any>(`${environment.apiBaseUrl}/auth/create`, data);
+  }
 
-    return this.http.post<any>(
-      `${environment.apiBaseUrl}/auth/create`, // 👈 tu endpoint real del backend
-      data
+  // 🔄 ACTUALIZAR DATOS (Nombre, Teléfono, Documento)
+  updateUser(id: number, data: any) {
+    console.log('Actualizando usuario =>', data);
+    return this.http.put<any>(`${environment.apiBaseUrl}/auth/update/${id}`, data).pipe(
+      tap((res) => {
+        // Si el backend responde con el usuario actualizado, lo guardamos
+        const updatedUser = res?.data?.user || data;
+        this.setUser(updatedUser);
+        console.log('Usuario actualizado en Signal y LocalStorage');
+      })
     );
   }
+
+  // 🔑 CAMBIAR CONTRASEÑA
+  updatePassword(id: number, oldPassword: string, newPassword: string) {
+    console.log('Cambiando contraseña para ID:', id);
+    return this.http.put<any>(`${environment.apiBaseUrl}/auth/change-password/${id}`, {
+      oldPassword,
+      newPassword
+    });
+  }
+
+  // --- MÉTODOS DE APOYO ---
 
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
@@ -74,7 +94,7 @@ export class LoginService {
 
   private setUser(user: any) {
     localStorage.setItem(this.USER_KEY, JSON.stringify(user));
-    this._user.set(user);
+    this._user.set(user); // Actualiza el Signal para que el Header cambie solo
   }
 
   private setToken(token: string) {
@@ -93,7 +113,6 @@ export class LoginService {
   }
 
   isAuthenticated(): boolean {
-    console.log('Checking auth =>', this.token());
     return !!this.getToken();
   }
 

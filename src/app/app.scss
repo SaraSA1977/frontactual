@@ -1,0 +1,54 @@
+/* ITEMS MENU */
+.menu-list li {
+  list-style: none;
+
+  padding: 14px 18px;
+  margin: 8px 10px;
+
+  border-radius: 14px;
+
+  color: #e2e8f0;
+  cursor: pointer;
+
+  font-size: 17px;
+  font-weight: 500;
+
+  transition: all 0.3s ease;
+}
+
+/* HOVER */
+.menu-list li:hover {
+  background: rgba(255,255,255,0.08);
+
+  transform: translateX(5px);
+
+  color: white;
+}
+
+/* LINK ACTIVO */
+.active-link {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+  color: white !important;
+
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+
+  position: relative;
+}
+
+/* BARra lateral */
+.active-link::before {
+  content: "";
+
+  position: absolute;
+
+  left: -10px;
+  top: 10px;
+
+  width: 4px;
+  height: 70%;
+
+  border-radius: 10px;
+
+  background: #60a5fa;
+}

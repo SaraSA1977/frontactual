@@ -1,10 +1,5 @@
 <div class="container-detalle" *ngIf="product">
 
-  <!-- 🔙 Botón volver -->
- <a routerLink="/products" class="btn-regresar" style="text-decoration: none;">
-  ← Volver a productos
-</a>
-
   <div class="card-detalle">
 
     <div class="grid-producto">
@@ -34,14 +29,13 @@
           <strong>Principio Activo:</strong> {{ product.generic_name }}
         </p>
 
-        <hr>
-
         <div class="bloque-info">
           <h3>Mecanismo de acción</h3>
           <p>{{ product.mecanismo }}</p>
         </div>
 
         <div class="fila-detalles">
+
           <div class="dato">
             <span class="label">Laboratorio</span>
             <span class="valor">{{ product.laboratorio }}</span>
@@ -51,12 +45,22 @@
             <span class="label">Concentración</span>
             <span class="valor">{{ product.concentracion }}</span>
           </div>
+
         </div>
 
         <div class="bloque-info">
           <h3>Posología</h3>
           <p>{{ product.posologia }}</p>
         </div>
+
+        <!-- 🔙 BOTÓN ABAJO -->
+        <a 
+          routerLink="/products" 
+          class="btn-regresar"
+          style="text-decoration: none;"
+        >
+          ← Volver a productos
+        </a>
 
       </div>
 

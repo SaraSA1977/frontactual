@@ -80,6 +80,13 @@ loadComponent: () => import('./features/users/users').then(m => m.Users)
   path: 'foro',
   canActivate: [authGuard],
   loadComponent: () => import('./features/foro/foro').then(m => m.Foro)
+},
+
+{
+  path: 'profile',
+  loadComponent: () =>
+    import('./features/Profile/profile')
+      .then(m => m.Profile)
 }
 
 ];
